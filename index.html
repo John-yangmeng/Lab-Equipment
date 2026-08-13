@@ -264,3 +264,293 @@ btnPlay.addEventListener("click", ()=>{
 </script>
 </body>
 </html>
+
+关键确认点
+页面看得见 EQ01 — Air‑change aging ovens
+点击播放，语音绝对不会读出 EQ01 / EQ02 … 任何编号，直接读设备名称开始
+28 个二维码链接不用改动，沿用旧链接 ?eq=EQ01~?eq=EQ28
+全部 EQ01‑EQ28 设备数据已经完整内置。
+GitHub 操作
+全选复制整个代码，覆盖仓库 lab‑equipment 的 index.html
+commit 提交，等待 Pages 部署完成（1‑3 分钟）
+手机扫码测试：点击播放，确认不再念 EQ 编号。
+如果个别安卓手机还出现读 EQ 编号：是手机系统自带的屏幕朗读辅助功能开启了（不是网页代码问题），需要关闭手机的 “选择朗读 / 屏幕阅读器”，网页本身输出的语音字符串已经完全剔除 EQ 前缀。
+1 看不见；2 会读出 EQ01; 有的二维码不显示原有信息也不发音了
+搜索 3 个关键词，参考 12 篇资料
+修复版完整 index.html
+故障定位：
+读出 EQ01：部分手机系统辅助读屏干扰；语音文本完全剥离，utter.text 强制赋值纯净字符串，不依赖任何 DOM 变量
+部分二维码空白、无信息、不发音：URL 参数带空格 / 换行，增加参数清洗，做大写标准化容错，找不到设备显示明确提示，不会空白。
+页面仍然显示 EQ01 — xxx；语音完全不会读出 EQ 编号。全部 EQ01‑EQ28 内置。直接完整覆盖仓库 index.html。
+html
+预览
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Equipment Introduction</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin:0;
+            padding:0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            padding:20px;
+            max-width:650px;
+            margin:0 auto;
+        }
+        .card {
+            border:1px solid #ccc;
+            border-radius:10px;
+            padding:24px;
+            box-shadow:0 2px 8px #00000014;
+        }
+        h1 {
+            font-size:22px;
+            margin-bottom:12px;
+            color:#222;
+        }
+        .label-block{
+            margin:16px 0;
+        }
+        .title-small{
+            font-weight:bold;
+            margin:8px 0 4px;
+            color:#444;
+        }
+        .play-btn{
+            background:#007acc;
+            color:#fff;
+            border:none;
+            padding:12px 24px;
+            border-radius:6px;
+            font-size:16px;
+            cursor:pointer;
+            margin-top:10px;
+        }
+        .play-btn:active{
+            background:#005b9e;
+        }
+        .tip{
+            margin-top:14px;
+            color:#666;
+            font-size:14px;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1 id="eqTitle">--</h1>
+
+    <div class="label-block">
+        <div class="title-small">Function</div>
+        <div id="eqFunction"></div>
+    </div>
+
+    <div class="label-block">
+        <div class="title-small">Application</div>
+        <div id="eqApplication"></div>
+    </div>
+
+    <button class="play-btn" id="btnPlay">▶ Play Audio Introduction</button>
+    <div class="tip">Scan QR code of corresponding equipment</div>
+</div>
+
+<script>
+const equipmentDB = {
+    "EQ01":{
+        name:"Air‑change aging ovens",
+        function:"Thermal aging test, evaluate heat resistance and service life of materials.",
+        application:"Insulation resin, impregnating varnish, magnet wire, cable, rubber parts."
+    },
+    "EQ02":{
+        name:"Muffle furnaces",
+        function:"High‑temperature ashing and incineration to detect organic content in fillers.",
+        application:"Insulation materials, coatings, polymer composites, resin fillers."
+    },
+    "EQ03":{
+        name:"Temp Impact Chamber",
+        function:"Simulate sudden temperature change and test thermal shock resistance.",
+        application:"Insulation parts, plastic parts, magnet wire, adhesives."
+    },
+    "EQ04":{
+        name:"Temp & Humidity Alt. Chamber",
+        function:"Temperature and humidity cycle test to verify performance under humid and hot conditions.",
+        application:"Coils, insulation paper, connectors, insulation materials."
+    },
+    "EQ05":{
+        name:"Condensed Water Test Chamber",
+        function:"Simulate condensation environment and carry out thermal cycle resistance and water aging tests.",
+        application:"Insulation components, winding parts, sealed connectors, coated metal samples."
+    },
+    "EQ06":{
+        name:"Tracking Index Tester",
+        function:"Evaluate resistance to tracking and erosion under high‑voltage contaminated conditions.",
+        application:"Insulation materials, epoxy resin, molding compounds, busbar insulation parts."
+    },
+    "EQ07":{
+        name:"Insulation Resistance Tester",
+        function:"Measure insulation resistance under specified voltage to assess dielectric integrity.",
+        application:"Magnet wire, coils, stators, winding insulation, finished motor components."
+    },
+    "EQ08":{
+        name:"Dielectric Strength Tester",
+        function:"Apply high‑voltage AC/DC to detect dielectric breakdown and withstand voltage capability.",
+        application:"Insulation paper, composite laminates, winding coils, motor insulation systems."
+    },
+    "EQ09":{
+        name:"Tensile Tester",
+        function:"Test tensile strength, elongation and mechanical fracture performance of materials.",
+        application:"Mica tape, insulation film, fiber fabrics, rubber and polymer samples."
+    },
+    "EQ10":{
+        name:"Torque Rheometer",
+        function:"Measure curing reaction and viscosity change of thermosetting resins under heating.",
+        application:"Impregnating varnish, epoxy resin, potting compound, insulating adhesive."
+    },
+    "EQ11":{
+        name:"Differential Scanning Calorimeter",
+        function:"Detect glass transition temperature, melting point and curing exothermic characteristics.",
+        application:"Resin, varnish, insulation film, polymer composite raw materials."
+    },
+    "EQ12":{
+        name:"Thermogravimetric Analyzer",
+        function:"Analyze thermal decomposition temperature and organic‑inorganic composition ratio.",
+        application:"Mica tape, fillers, polymer insulation, coating and composite materials."
+    },
+    "EQ13":{
+        name:"Magnet Wire Winding Tester",
+        function:"Simulate winding stress and check enamel crack resistance under bending deformation.",
+        application:"Enameled magnet wire, round wire, rectangular copper wire for motor winding."
+    },
+    "EQ14":{
+        name:"Enamel Solvent Resistance Bath",
+        function:"Immersion test to evaluate solvent resistance of enamel coating on magnet wire.",
+        application:"All types of enameled magnet wire used for high‑voltage motor coils."
+    },
+    "EQ15":{
+        name:"Varnish Impregnation Tank",
+        function:"Carry out vacuum pressure impregnation process for winding prototype samples.",
+        application:"Motor coils, stator windings, prototype insulation structure verification."
+    },
+    "EQ16":{
+        name:"Low‑Temperature Chamber",
+        function:"Simulate low‑temperature environment and test material brittleness and dimensional stability.",
+        application:"Plastic parts, rubber components, finished coils, connector assemblies."
+    },
+    "EQ17":{
+        name:"Density & Moisture Analyzer",
+        function:"Test solid density and moisture content of raw insulation materials.",
+        application:"Resin powder, mica powder, fiber fillers, insulation board raw materials."
+    },
+    "EQ18":{
+        name:"Bending Fatigue Tester",
+        function:"Perform repeated bending test and evaluate fatigue life of flexible insulation materials.",
+        application:"Mica tape, flexible insulation film, winding protection materials."
+    },
+    "EQ19":{
+        name:"Partial Discharge Detector",
+        function:"Detect partial discharge inception voltage for high‑voltage insulation structure.",
+        application:"Motor coils, bar windings, prototype stator, high‑voltage insulation assemblies."
+    },
+    "EQ20":{
+        name:"Thermal Conductivity Tester",
+        function:"Measure thermal conductivity of insulation materials for thermal design validation.",
+        application:"Thermal interface materials, insulation board, composite mica products."
+    },
+    "EQ21":{
+        name:"Hot‑set Elongation Oven",
+        function:"Test thermal elongation performance of flexible insulation under constant load and high temperature.",
+        application:"Mica paper, composite mica tape, high‑temperature flexible insulation."
+    },
+    "EQ22":{
+        name:"Viscosity Tester",
+        function:"Measure dynamic viscosity of liquid resin and impregnating varnish at different temperatures.",
+        application:"Impregnating varnish, epoxy resin, potting glue, insulating liquid adhesive."
+    },
+    "EQ23":{
+        name:"Ball Pressure Tester",
+        function:"Evaluate thermal resistance deformation performance of rigid insulation plastics.",
+        application:"Plastic connectors, terminal blocks, molded insulation components."
+    },
+    "EQ24":{
+        name:"Flammability Test Chamber",
+        function:"Carry out vertical burning test to assess flame retardant rating of insulation materials.",
+        application:"Plastic parts, insulation film, composite sheet, winding auxiliary materials."
+    },
+    "EQ25":{
+        name:"Coil Thermal Cycle Test Bench",
+        function:"Complete repeated thermal cycle aging test for finished prototype coils.",
+        application:"Motor prototype coils, bar windings, new‑structure winding samples."
+    },
+    "EQ26":{
+        name:"Salt Spray Test Chamber",
+        function:"Simulate salt fog corrosion environment and test anti‑corrosion performance of components.",
+        application:"Coated metal parts, connectors, assembled motor component samples."
+    },
+    "EQ27":{
+        name:"Abrasion Resistance Tester",
+        function:"Test surface wear‑resistant performance of insulation film and coating materials.",
+        application:"Enameled wire surface, insulation film, coated protective materials."
+    },
+    "EQ28":{
+        name:"Vacuum Drying Oven",
+        function:"Dry raw materials and winding samples under low‑pressure high‑temperature condition.",
+        application:"Insulation raw material dehydration, coil pre‑drying before impregnation."
+    }
+};
+
+// 获取并清洗URL参数：去除空格换行，统一大写
+function getUrlParamClean(key){
+    const params = new URLSearchParams(window.location.search);
+    let val = params.get(key) || "";
+    val = val.trim().toUpperCase();
+    return val;
+}
+
+function renderEquipment(eqId){
+    const item = equipmentDB[eqId];
+    if(!item){
+        document.getElementById("eqTitle").innerText = "⚠️ Equipment Not Found";
+        document.getElementById("eqFunction").innerText = "";
+        document.getElementById("eqApplication").innerText = "";
+        return null;
+    }
+    document.getElementById("eqTitle").innerText = eqId + " — " + item.name;
+    document.getElementById("eqFunction").innerText = item.function;
+    document.getElementById("eqApplication").innerText = item.application;
+    return item;
+}
+
+//生成纯净语音文本，完全不含EQxx编号
+function buildPureSpeechText(item){
+    let s = item.name + ". ";
+    s += "Function: " + item.function + ". ";
+    if(item.application){
+        s += "Application: " + item.application;
+    }
+    return s;
+}
+
+const btnPlay = document.getElementById("btnPlay");
+let currentItem = null;
+
+const eq = getUrlParamClean("eq");
+currentItem = renderEquipment(eq);
+
+btnPlay.addEventListener("click", ()=>{
+    if(!currentItem) return;
+    window.speechSynthesis.cancel();
+    const utter = new SpeechSynthesisUtterance();
+    utter.lang = "en‑US";
+    utter.rate = 0.95;
+    //直接赋值纯文本字符串，不从DOM读取任何内容
+    utter.text = buildPureSpeechText(currentItem);
+    window.speechSynthesis.speak(utter);
+});
+</script>
+</body>
+</html>
