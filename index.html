@@ -217,12 +217,12 @@ const equipmentDB = {
     }
 };
 
-//兼容旧二维码：兼容参数eq / EQ，去除空格，清理横杠，统一转为标准EQXX大写格式
+//同时读取 id（旧二维码）、eq（新）参数，清洗脏字符
 function getCleanEquipmentId(){
     const params = new URLSearchParams(window.location.search);
-    let raw = params.get("eq") || params.get("EQ") || "";
+    let raw = params.get("id") || params.get("eq") || params.get("ID") || params.get("EQ") || "";
     raw = raw.trim().toUpperCase();
-    raw = raw.replace(/‑/g,"-").replace(/[^EQ0-9]/g,"");
+    raw = raw.replace(/[^EQ0-9]/g,"");
     return raw;
 }
 
@@ -234,14 +234,13 @@ function renderEquipment(eqId){
         document.getElementById("eqApplication").innerText = "";
         return null;
     }
-    //页面UI正常展示EQ编号
     document.getElementById("eqTitle").innerText = eqId + " — " + item.name;
     document.getElementById("eqFunction").innerText = item.function;
     document.getElementById("eqApplication").innerText = item.application;
     return item;
 }
 
-//语音文本：完全剔除EQ编号，只朗读设备名称、Function、Application
+//语音文本：完全不包含EQxx编号
 function buildPureSpeechText(item){
     let s = item.name + ". ";
     s += "Function: " + item.function + ". ";
