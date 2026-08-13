@@ -43,23 +43,12 @@
             color: #555555;
             font-size: 15px;
         }
-        .play-btn{
-            margin-top:20px;
-            padding:12px 24px;
-            font-size:17px;
-            background:#2b65d9;
-            color:#fff;
-            border:none;
-            border-radius:8px;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <div id="content"></div>
-        <button class="play-btn" id="playBtn">Play Voice 播放语音</button>
-        <div class="tip">Click button for equipment voice introduction.<br>点击按钮播放设备语音介绍</div>
-        <audio id="audioPlayer" preload="auto">
+        <div class="tip">Tap anywhere on screen to play voice introduction.<br>点击页面任意位置播放语音介绍</div>
     </div>
 
 <script>
@@ -67,142 +56,170 @@ const deviceData={
 "EQ01":{
 "name":"EQ01 Air‑change aging ovens",
 "func":"Thermal aging test, evaluate heat resistance and service life of materials.",
-"app":"Insulation resin, impregnating varnish, magnet wire, cable, rubber parts."
+"app":"Insulation resin, impregnating varnish, magnet wire, cable, rubber parts.",
+"speechText":"EQ zero one. Air‑change aging ovens. Function. Thermal aging test, evaluate heat resistance and service life of materials. Application. Insulation resin, impregnating varnish, magnet wire, cable, rubber parts."
 },
 "EQ02":{
 "name":"EQ02 Muffle furnaces",
 "func":"High‑temperature ashing and incineration to detect organic content in fillers.",
-"app":"Insulation materials, coatings, polymer composites, resin fillers."
+"app":"Insulation materials, coatings, polymer composites, resin fillers.",
+"speechText":"EQ zero two. Muffle furnaces. Function. High‑temperature ashing and incineration to detect organic content in fillers. Application. Insulation materials, coatings, polymer composites, resin fillers."
 },
 "EQ03":{
 "name":"EQ03 Temp Impact Chamber",
 "func":"Simulate sudden temperature change and test thermal shock resistance.",
-"app":"Insulation parts, plastic parts, magnet wire, adhesives."
+"app":"Insulation parts, plastic parts, magnet wire, adhesives.",
+"speechText":"EQ zero three. Temperature Impact Chamber. Function. Simulate sudden temperature change and test thermal shock resistance. Application. Insulation parts, plastic parts, magnet wire, adhesives."
 },
 "EQ04":{
 "name":"EQ04 Temp & Humidity Alt. Chamber",
 "func":"Temperature and humidity cycle test to verify performance under humid and hot conditions.",
-"app":"Coils, insulation paper, connectors, insulation materials."
+"app":"Coils, insulation paper, connectors, insulation materials.",
+"speechText":"EQ zero four. Temperature and Humidity Alternating Chamber. Function. Temperature and humidity cycle test to verify performance under humid and hot conditions. Application. Coils, insulation paper, connectors, insulation materials."
 },
 "EQ05":{
 "name":"EQ05 Condensed Water Test Chamber",
 "func":"Simulate condensation environment and carry out thermal cycle resistance and water aging tests.",
-"app":"Insulation materials, magnet wire, plastic parts, motor components."
+"app":"Insulation materials, magnet wire, plastic parts, motor components.",
+"speechText":"EQ zero five. Condensed Water Test Chamber. Function. Simulate condensation environment and carry out thermal cycle resistance and water aging tests. Application. Insulation materials, magnet wire, plastic parts, motor components."
 },
 "EQ06":{
 "name":"EQ06 Salt Spray Chamber",
 "func":"Simulate marine climate and conduct neutral or acid salt spray corrosion tests.",
-"app":"Motor components, coatings, metal parts, insulation materials."
+"app":"Motor components, coatings, metal parts, insulation materials.",
+"speechText":"EQ zero six. Salt Spray Chamber. Function. Simulate marine climate and conduct neutral or acid salt spray corrosion tests. Application. Motor components, coatings, metal parts, insulation materials."
 },
 "EQ07":{
 "name":"EQ07 UV Aging Chamber",
 "func":"Simulate ultraviolet irradiation and test weather resistance of materials.",
-"app":"Insulation materials, plastic parts, coatings, rubber parts."
+"app":"Insulation materials, plastic parts, coatings, rubber parts.",
+"speechText":"EQ zero seven. UV Aging Chamber. Function. Simulate ultraviolet irradiation and test weather resistance of materials. Application. Insulation materials, plastic parts, coatings, rubber parts."
 },
 "EQ08":{
 "name":"EQ08 Pure Water System",
 "func":"Produce laboratory water meeting relevant standards.",
-"app":"Chemical analysis, laboratory tests, equipment cleaning."
+"app":"Chemical analysis, laboratory tests, equipment cleaning.",
+"speechText":"EQ zero eight. Pure Water System. Function. Produce laboratory water meeting relevant standards. Application. Chemical analysis, laboratory tests, equipment cleaning."
 },
 "EQ09":{
 "name":"EQ09 Vickers Hardness Tester",
 "func":"Measure hardness of materials.",
-"app":"Metal parts, coatings, heat‑treated components."
+"app":"Metal parts, coatings, heat‑treated components.",
+"speechText":"EQ zero nine. Vickers Hardness Tester. Function. Measure hardness of materials. Application. Metal parts, coatings, heat‑treated components."
 },
 "EQ10":{
 "name":"EQ10 Metallographic Microscope",
 "func":"Observe microstructure of materials.",
-"app":"Metal materials, failure analysis, coating thickness inspection."
+"app":"Metal materials, failure analysis, coating thickness inspection.",
+"speechText":"EQ one zero. Metallographic Microscope. Function. Observe microstructure of materials. Application. Metal materials, failure analysis, coating thickness inspection."
 },
 "EQ11":{
 "name":"EQ11 FTIR Spectrometer",
 "func":"Analyze chemical structure and identify material composition.",
-"app":"Polymers, resins, rubber, coatings."
+"app":"Polymers, resins, rubber, coatings.",
+"speechText":"EQ one one. FTIR Spectrometer. Function. Analyze chemical structure and identify material composition. Application. Polymers, resins, rubber, coatings."
 },
 "EQ12":{
 "name":"EQ12 DSC",
 "func":"Test thermal properties of materials such as glass transition temperature.",
-"app":"Polymer materials, resin curing degree, melting point test."
+"app":"Polymer materials, resin curing degree, melting point test.",
+"speechText":"EQ one two. D S C. Function. Test thermal properties of materials such as glass transition temperature. Application. Polymer materials, resin curing degree, melting point test."
 },
 "EQ13":{
 "name":"EQ13 TGA",
 "func":"Test thermal decomposition temperature and thermal stability of materials.",
-"app":"Insulation materials, polymers, composite materials."
+"app":"Insulation materials, polymers, composite materials.",
+"speechText":"EQ one three. T G A. Function. Test thermal decomposition temperature and thermal stability of materials. Application. Insulation materials, polymers, composite materials."
 },
 "EQ14":{
 "name":"EQ14 Rheometer",
 "func":"Measure flow and deformation characteristics of materials.",
-"app":"Resins, coatings, adhesives, plastics."
+"app":"Resins, coatings, adhesives, plastics.",
+"speechText":"EQ one four. Rheometer. Function. Measure flow and deformation characteristics of materials. Application. Resins, coatings, adhesives, plastics."
 },
 "EQ15":{
 "name":"EQ15 Refractometer",
 "func":"Measure refractive index of liquid samples.",
-"app":"Solution concentration detection, oil products, chemical raw material inspection."
+"app":"Solution concentration detection, oil products, chemical raw material inspection.",
+"speechText":"EQ one five. Refractometer. Function. Measure refractive index of liquid samples. Application. Solution concentration detection, oil products, chemical raw material inspection."
 },
 "EQ16":{
 "name":"EQ16 Fume hood",
 "func":"Provide safe operating environment and exhaust harmful gas.",
-"app":"Chemical experiments, sample pretreatment, solvent operation."
+"app":"Chemical experiments, sample pretreatment, solvent operation.",
+"speechText":"EQ one six. Fume hood. Function. Provide safe operating environment and exhaust harmful gas. Application. Chemical experiments, sample pretreatment, solvent operation."
 },
 "EQ17":{
 "name":"EQ17 Constant Temperature Oil Bath",
 "func":"Provide constant temperature heating environment.",
-"app":"Sample heating, reactor heating, distillation test."
+"app":"Sample heating, reactor heating, distillation test.",
+"speechText":"EQ one seven. Constant Temperature Oil Bath. Function. Provide constant temperature heating environment. Application. Sample heating, reactor heating, distillation test."
 },
 "EQ18":{
 "name":"EQ18 Tracking Index tester",
 "func":"Test tracking resistance of insulation materials.",
-"app":"Insulation materials, plastic parts, electrical equipment components."
+"app":"Insulation materials, plastic parts, electrical equipment components.",
+"speechText":"EQ one eight. Tracking Index tester. Function. Test tracking resistance of insulation materials. Application. Insulation materials, plastic parts, electrical equipment components."
 },
 "EQ19":{
 "name":"EQ19 20kN tensile tester",
 "func":"Test tensile, compression, bending and other mechanical properties.",
-"app":"Metal materials, plastics, rubber, composite materials."
+"app":"Metal materials, plastics, rubber, composite materials.",
+"speechText":"EQ one nine. Twenty kilo Newton tensile tester. Function. Test tensile, compression, bending and other mechanical properties. Application. Metal materials, plastics, rubber, composite materials."
 },
 "EQ20":{
 "name":"EQ20 5kN tensile tester",
 "func":"Test tensile, compression, bending and other mechanical properties.",
-"app":"Metal materials, plastics, rubber, composite materials."
+"app":"Metal materials, plastics, rubber, composite materials.",
+"speechText":"EQ two zero. Five kilo Newton tensile tester. Function. Test tensile, compression, bending and other mechanical properties. Application. Metal materials, plastics, rubber, composite materials."
 },
 "EQ21":{
 "name":"EQ21 5kN High Temp & Humidity Tester",
 "func":"Test mechanical properties under high temperature and high humidity environment.",
-"app":"Insulation materials, plastics, rubber, composite materials."
+"app":"Insulation materials, plastics, rubber, composite materials.",
+"speechText":"EQ two one. Five kilo Newton High Temperature and Humidity Tester. Function. Test mechanical properties under high temperature and high humidity environment. Application. Insulation materials, plastics, rubber, composite materials."
 },
 "EQ22":{
 "name":"EQ22 Breakdown Voltage Tester",
 "func":"Test electrical insulation strength of materials.",
-"app":"Insulation materials, cables, motor windings, transformers."
+"app":"Insulation materials, cables, motor windings, transformers.",
+"speechText":"EQ two two. Breakdown Voltage Tester. Function. Test electrical insulation strength of materials. Application. Insulation materials, cables, motor windings, transformers."
 },
 "EQ23":{
 "name":"EQ23 Electronic Balance",
 "func":"High‑precision weighing.",
-"app":"Sample weighing, formulation preparation, quality control."
+"app":"Sample weighing, formulation preparation, quality control.",
+"speechText":"EQ two three. Electronic Balance. Function. High‑precision weighing. Application. Sample weighing, formulation preparation, quality control."
 },
 "EQ24":{
 "name":"EQ24 Controlled Sample Cabinet",
 "func":"Provide constant temperature and humidity environment for sample storage.",
-"app":"Sample storage, material stability test."
+"app":"Sample storage, material stability test.",
+"speechText":"EQ two four. Controlled Sample Cabinet. Function. Provide constant temperature and humidity environment for sample storage. Application. Sample storage, material stability test."
 },
 "EQ25":{
 "name":"EQ25 Chemical cabinet",
 "func":"Safe storage of chemical reagents.",
-"app":"Laboratory chemical management."
+"app":"Laboratory chemical management.",
+"speechText":"EQ two five. Chemical cabinet. Function. Safe storage of chemical reagents. Application. Laboratory chemical management."
 },
 "EQ26":{
 "name":"EQ26 Temp & Humidity Test Chamber",
 "func":"Simulate temperature and humidity environment to test material performance.",
-"app":"Electronic components, plastics, metals, composite materials."
+"app":"Electronic components, plastics, metals, composite materials.",
+"speechText":"EQ two six. Temperature and Humidity Test Chamber. Function. Simulate temperature and humidity environment to test material performance. Application. Electronic components, plastics, metals, composite materials."
 },
 "EQ27":{
 "name":"EQ27 Metallographic Sample Preparation Equipment",
 "func":"Metallographic specimen preparation.",
-"app":"Specimen cutting, mounting, grinding and polishing."
+"app":"Specimen cutting, mounting, grinding and polishing.",
+"speechText":"EQ two seven. Metallographic Sample Preparation Equipment. Function. Metallographic specimen preparation. Application. Specimen cutting, mounting, grinding and polishing."
 },
 "EQ28":{
 "name":"EQ28 Bolt & Nut Tester",
 "func":"Test mechanical properties of bolts and nuts.",
-"app":"Fasteners, connecting parts, structural components."
+"app":"Fasteners, connecting parts, structural components.",
+"speechText":"EQ two eight. Bolt and Nut Tester. Function. Test mechanical properties of bolts and nuts. Application. Fasteners, connecting parts, structural components."
 }
 };
 
@@ -212,8 +229,7 @@ function getQueryParam(name){
 }
 const id=getQueryParam("id");
 const contentDiv=document.getElementById("content");
-const audioPlayer=document.getElementById("audioPlayer");
-const playBtn=document.getElementById("playBtn");
+let speechText="";
 
 if(deviceData[id]){
     const d=deviceData[id];
@@ -226,16 +242,30 @@ if(deviceData[id]){
         <div class="label">Application</div>
         <div>${d.app}</div>
     </div>`;
-    audioPlayer.src = `${id}.mp3`;
+    speechText=d.speechText;
 }else{
     contentDiv.innerHTML="<h1>Unknown Equipment</h1><p>Invalid QR code parameter.</p>";
-    playBtn.style.display="none";
 }
 
-playBtn.addEventListener("click",()=>{
-    audioPlayer.pause();
-    audioPlayer.currentTime=0;
-    audioPlayer.play();
+let voicesCache=[];
+function loadVoices(){
+    voicesCache=window.speechSynthesis.getVoices();
+}
+loadVoices();
+window.speechSynthesis.onvoiceschanged=loadVoices;
+
+document.body.addEventListener("click",()=>{
+    if(!speechText) return;
+    window.speechSynthesis.cancel();
+    let utter=new SpeechSynthesisUtterance(speechText);
+    utter.lang="en‑US";
+    utter.rate=0.88;
+    utter.pitch=0.96;
+    utter.volume=1.0;
+    let usVoice=voicesCache.find(v=>v.lang==="en‑US");
+    if(usVoice) utter.voice=usVoice;
+    window.speechSynthesis.speak(utter);
 })
 </script>
 </body>
+</html>
